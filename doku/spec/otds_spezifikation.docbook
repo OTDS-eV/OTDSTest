@@ -9466,7 +9466,7 @@
 						Hotel-Only products and Flight-Only products, as well as for package
 						products and possible additional services. In doing this, one or several
 						compatible Addons can be added on to the various offers. In the element
-							<code>Booking</code> , it is possible to specify that the booking
+						<code>Booking</code> , it is possible to specify that the booking
 						information of the individual components should be completely overwritten.
 						In the context of flights, this is commonly used in defining flight wrappers
 						that override the booking information of the individual flights involved. In
@@ -9484,7 +9484,7 @@
 						schließt.</para>
 					<para xml:id="en_8575" xml:lang="en">In addition a complete allocation of the
 						components involved to the travel days is determined by the Product
-						definition. This allocation takes plaxe via the attribute
+						definition. This allocation takes place via the attribute
 							<code>DayAllocationIndex</code>. The componentes are stringed together
 						without gaps in the order of the DayAllocationIndices indicated. Product
 						types with a compulsive gap in the day allocation, e.g the
@@ -9502,6 +9502,23 @@
 		</Product>
   </Products>]]></programlisting>
 
+					<bridgehead xml:id="de_9867" xml:lang="de">Einordnung der Komponenten in eine zeitliche Reihenfolge</bridgehead>
+					<bridgehead xml:id="en_9867" xml:lang="en">Classification of the components in a chronological order</bridgehead>
+					<para xml:id="de_9868" xml:lang="de">Der <code>DayAllocationIndex</code> dient dazu, die zeitliche
+						Reihenfolge der Komponenten bis hin zu Einzelflügen zu definieren. Die
+						Definition der Reihenfolge erfolgt in Hierarchien, wobei die in der
+						Produktdefinition aufgeführten Komponenten die erste Ebene bilden. Über die
+						Referenzierung auf DefineComponent werden die in den DefinedComponent
+						definierten Komponenten jeweils hierarchisch eingeordnet.</para>
+					<para xml:id="en_9868" xml:lang="en">The <code>DayAllocationIndex</code> is used to define the chronological order of the
+						components up to single flights. The sequence is defined in hierarchies,
+						whereby the components listed in the product definition form the first
+						level. By referencing DefineComponent, the components defined in the
+						DefinedComponent are arranged hierarchically.</para>
+					<para xml:id="de_9869" xml:lang="de">Die ReturnFlight-Komponente selbst besitzt kein <code>DayAllocationIndex</code>. Bei ReturnFlight werden immer die Indizes der darin enthaltenen In- und Outboundkomponenten benutzt, die in der nächsten Hierarchiebene spezifiziert werden.</para>
+					<para xml:id="en_9869" xml:lang="en">The ReturnFlight component itself does not have a <code>DayAllocationIndex</code>.
+						ReturnFlight always uses the indices of the inbound and outbound components
+						it contains, which are specified in the next hierarchy level.</para> 
 					<bridgehead xml:id="de_1135" xml:lang="de">Filter</bridgehead>
 					<bridgehead xml:id="en_1135" xml:lang="en">Filter</bridgehead>
 					<para xml:id="de_1136" xml:lang="de">Durch Filterbedingungen (Filter) kann die
@@ -9610,7 +9627,7 @@
 					<para xml:id="en_1141" xml:lang="en">In the example above you can see that the
 						match conditions can be logically connected to any other related
 						conditions.</para>
-					<para/>
+					
 				</section>
 				<section xml:id="OtdsStrategyRulesProductTypes">
 					<title><phrase xml:id="de_1148" xml:lang="de">Festlegung der Produkttypen
