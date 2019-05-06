@@ -34156,16 +34156,12 @@ usw.]]></programlisting>
 								eines Layers. Die Komponenten werden anhand dieses Wertes sortiert
 								und in dieser Reihenfolge den Tagen zugeordnet. Die
 								Komponenteninstanz mit dem kleinsten Index wird also an den Anfang
-								der Reise alloziert. Das heißt innerhalb eines Layers allozierte
-								Komponenten überschneiden sich (bis auf mögliche Überschneidungen an
-								den Grenzen) nicht.</para>
+								der Reise alloziert. Durch die Aneinanderreihung der Komponenten entstehen im Allgemeinen weder Lücken noch Überschneidungen. Ausnahmen hierbei sind durch die NeighbourComponentCorrection explizit definierten Lücken oder Überschneidungen.</para>
 							<para xml:id="en_2985" xml:lang="en">The <code>DayAllocationIndex</code>
 								defines a sorting of components to be allocated within a layer. The
 								components are sorted according to this value and are assigned to
-								the days in this order . The component instance with the lowest
-								index is thus allocated to the beginning of the journey. Within a
-								layer this means unused components do not overlap (with the
-								exception of possible overlaps at the borders).</para>
+								the days in this order. The component instance with the lowest
+								index is thus allocated to the beginning of the journey. In general, the sequence of components does not result in gaps or overlaps. Exceptions to this are gaps or overlaps explicitly defined by NeighbourComponentCorrection..</para>
 
 							<para xml:id="de_2986" xml:lang="de">Um eine flexible Steuerung der
 								Reihenfolge insbesondere zusammengesetzter Komponenten (Siehe
