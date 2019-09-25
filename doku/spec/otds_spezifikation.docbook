@@ -43382,8 +43382,8 @@ usw.]]></programlisting>
 										<para xml:id="en_3911" xml:lang="en">ChildrenSportFacilities (V1.1)</para>
 									</listitem>
 									<listitem>
-										<para xml:id="de_3912" xml:lang="de">NonSmookerHotel (V1.1)</para>
-										<para xml:id="en_3912" xml:lang="en">NonSmokingHotel (V1.1)</para>
+										<para xml:id="de_3912" xml:lang="de">NonSmokerHotel (V1.1)</para>
+										<para xml:id="en_3912" xml:lang="en">NonSmokerHotel (V1.1)</para>
 									</listitem>
 									<listitem>
 										<para xml:id="de_3913" xml:lang="de">BuggyRental (V1.1)</para>
@@ -44253,6 +44253,10 @@ usw.]]></programlisting>
 									<listitem>
 										<para xml:id="de_4041" xml:lang="de">Hairdryer</para>
 										<para xml:id="en_4041" xml:lang="en">Hairdryer</para>
+									</listitem>
+									<listitem>
+										<para xml:id="de_9890" xml:lang="de">NonSmokerRoom</para>
+										<para xml:id="en_9890" xml:lang="en">NonSmokerRoom</para>
 									</listitem>
 									<listitem>
 										<para xml:id="de_4042" xml:lang="de">SeparateBedroom</para>
@@ -45380,8 +45384,7 @@ usw.]]></programlisting>
 												>ChildrenSportFacilities</para>
 											</listitem>
 											<listitem>
-												<para xml:id="de_4221" xml:lang="de"
-												>NonSmookerHotel</para>
+												<para xml:id="de_4221" xml:lang="de">NonSmokerHotel</para>
 												<para xml:id="en_4221" xml:lang="en"
 												>NonSmokerHotel</para>
 											</listitem>
