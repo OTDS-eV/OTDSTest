@@ -27867,7 +27867,7 @@ usw.]]></programlisting>
 							<code>Filter</code> and <code>Condition</code> )</para>
 				</listitem>
 			</itemizedlist>
-
+			<para xml:id="de_10003" xml:lang="de">Der kompletten OTDS-Verarbeitung liegt ein Datenmodel zugrunde, welches in der Folge das OTDS-Datenmodell genannt wird.</para>
 		</section>
 		<section xml:id="OtdsProcessDataModel">
 			<title><phrase xml:id="de_2152" xml:lang="de">Das OTDS Datenmodell</phrase><phrase
@@ -28960,20 +28960,69 @@ usw.]]></programlisting>
 
 					<variablelist>
 						<varlistentry>
+							<term xml:id="de_10004" xml:lang="de"><emphasis>OTDS-Document</emphasis></term>
+							<term xml:id="en_10004" xml:lang="en"><emphasis>OTDS-Document</emphasis></term>
+							<listitem>
+								<para xml:id="de_10005" xml:lang="de">Eine OTDS-Lieferung besteht in der Regel immer aus
+									mehreren Einzeldateien in einer Zip-Datei, die über das OTDS
+									Merge-Konzept (siehe SN todo) zu einem OTDS-Document
+									zusammengeführt werden.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term xml:id="de_10006" xml:lang="de"><emphasis>Produktdefinition</emphasis></term>
+							<term xml:id="en_10006" xml:lang="en"><emphasis>Product definition</emphasis></term>
+							<listitem>
+								<para xml:id="de_10007" xml:lang="de">Eine Produktdefinition entspricht einem Product-Element aus dem OTDS-Document, welches für einen bestimmten Produkttyp definiert, welche
+									Komponenten in einer Menge von Angeboten dieses Produkttyps enthalten sein müssen.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term xml:id="de_10008" xml:lang="de"><emphasis>Produkt</emphasis></term>
+							<term xml:id="en_10008" xml:lang="en"><emphasis>Product</emphasis></term>
+							<listitem>
+								<para xml:id="de_10009" xml:lang="de">Ein Produkt enthält die Menge aller Produktdefinition
+									zu einem bestimmten Produkttyp und enthält nach der
+									Produktexpansion die Menge aller expandierten
+									Produktregeln.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term xml:id="de_10010" xml:lang="de"><emphasis>Expandierte Produkregel</emphasis></term>
+							<term xml:id="en_10010" xml:lang="en"><emphasis>Expanded Product Rule</emphasis></term>
+							<listitem>
+								<para xml:id="de_10011" xml:lang="de">Eine expandierte Produktregel definiert eine
+									Komponentenstruktur aller Angebote einer Produktdefinition mit
+									einer einheitlichen Komponentenstruktur. Eine Produktdefinition
+									mit DefinedComponents kann mehrere expandierte Produktregeln
+									enthalten. Die Produktregel enthält als übergeordnete Komponete
+									die Quell-Product-Definition und darüber auch noch das
+									Otds-Wurzelelement mit den Unterkomponenten Brand und
+									GlobalValues (nur die, die für den betrachteten Kontext gültig
+									sind). Damit enthält die expandierte Produktregel alle
+									Informationen um alle Angebote der expandierten Produktregel und
+									des betrachteten Kontexts zu berechnen.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
 							<term xml:id="de_2211" xml:lang="de"
 								><emphasis>Komponente</emphasis></term>
 							<term xml:id="en_2211" xml:lang="en"
 								><emphasis>Component</emphasis></term>
 							<listitem>
-								<para xml:id="de_2212" xml:lang="de">Eine Komponente beschreibt die
-									Eigenschaften einer Menge von gleichartigen Bestandteilen eines
-									Angebotes. Ein Angebot wird durch die Auswahl von Elementen
-									(Instanzen) aus diesen Bestandteilsmengen der für das Angebot
-									relevanten Komponenten zusammengestellt.</para>
-								<para xml:id="en_2212" xml:lang="en">A component describes the
+								<para xml:id="de_2212" xml:lang="de">Eine Komponente beschreibt die Eigenschaften einer
+									Menge von gleichartigen Bestandteilen (Accommodation,
+									OnewayFlight, SellingAccom, Unit, etc.) der Angebote einer
+									expandierten Produktregel. Die Eigenschaften ergeben sich aus
+									der statischen Analyse des OTDS Dokumentes und aus den
+									entsprechenden Eigenschaften der betrachteten expandierten
+									Produktregel. Beachte: auch Otds, Products, Product, Brand,
+									GlobalValues, GlobalValue sind Komponenten.</para>
+								<!--<para xml:id="en_2212" xml:lang="en">A component describes the
 									properties of a number of similar elements of an offer. An offer
 									is composed through the selection of elements (instances) from
-									this body of components relevant to the offer.</para>
+									this body of components relevant to the offer.</para>   -->
+								<!--
 								<para xml:id="de_2213" xml:lang="de">Primär ist eine Komponente ein
 									bestimmter Typ einer buchbaren Leistung, der Typ eines Teiles
 									einer buchbaren Leistung oder auch der Typ und die Struktur
@@ -28993,7 +29042,7 @@ usw.]]></programlisting>
 										<code>Accommodation</code> elements) or <code>Unit</code>
 									(here the instances are all <code>Unit</code> elements, grouped
 									according to the <code>SellingAccom</code> component instance in
-									which they are located).</para>
+									which they are located).</para>-->
 							</listitem>
 						</varlistentry>
 						<varlistentry>
@@ -29002,30 +29051,19 @@ usw.]]></programlisting>
 								><emphasis>Instance</emphasis></term>
 							<listitem>
 								<para xml:id="de_2216" xml:lang="de">Eine Instanz ist
-										<emphasis>ein</emphasis> Element der durch eine Komponente
-									beschriebene Menge von Angebotsbestandteilen.</para>
-								<para xml:id="en_2216" xml:lang="en">An instance is
-										<emphasis>one</emphasis> element of the set of offer
-									elements described by a component.</para>
+									<emphasis>ein</emphasis> konkretes Element ( zum Beispiel Accommodation(Key="ACE512") oder Accommodation(Key="ACE512")/Unit("DZ") ) der durch eine Komponente
+									beschriebene Menge von Angebotsbestandteilen bezogen auf eine konkrete expandierte Produktregel und eine konkrete Komponente in dieser expandierten Produktregel. Eine Instanz enthält die Referenz auf das konkrete Element aus dem OTDS Dokument (zum Beispiel Accommodation(Key="ACE512"/Unit(Key="DZ")) 
+									und eine Referenz auf die betrachtete Komponente der betrachteten expandierten Produktregel.
+								</para>
 								<para xml:id="de_2217" xml:lang="de"><emphasis>Beispiel:</emphasis>
 									Ein einzelnes <code>Accommodation</code> oder <code>Unit</code>
-									Element.</para>
+									Element inklusive der Referenz auf die Komponente der entsprechenden im Rahmen der expandierten Produktregel.</para>
 								<para xml:id="en_2217" xml:lang="en"><emphasis>Example:</emphasis> A
 									single <code>Accommodation</code> or <code>Unit</code>
 									element.</para>
 							</listitem>
 						</varlistentry>
-						<varlistentry>
-							<term xml:id="de_2218" xml:lang="de"><emphasis>Produkt</emphasis></term>
-							<term xml:id="en_2218" xml:lang="en"><emphasis>Product</emphasis></term>
-							<listitem>
-								<para xml:id="de_2219" xml:lang="de">Ein Produkt beschreibt, welche
-									Komponenten in einer Menge von Angeboten enthalten sein
-									müssen.</para>
-								<para xml:id="en_2219" xml:lang="en">A product describes which
-									components must be contained in a set of offers.</para>
-							</listitem>
-						</varlistentry>
+						
 						<varlistentry>
 							<term xml:id="de_2220" xml:lang="de"><emphasis>Angebot</emphasis></term>
 							<term xml:id="en_2220" xml:lang="en"><emphasis>Offer</emphasis></term>
@@ -29055,7 +29093,51 @@ usw.]]></programlisting>
 					<title><phrase xml:id="de_2223" xml:lang="de">Statische
 							Komponenteneigenschaften</phrase><phrase xml:id="en_2223" xml:lang="en"
 							>Static component properties</phrase></title>
-
+					<para xml:id="de_2233" xml:lang="de">Die Baumstruktur der Komponenten in zwei Bereiche
+						unterteilt werden:</para>
+					<para xml:id="en_2233" xml:lang="en">The tree structure of the components can be divided into
+						two areas:</para>
+					<variablelist>
+						<varlistentry>
+							<term xml:id="de_2234" xml:lang="de"><emphasis>statische
+								Komponentenstruktur</emphasis></term>
+							<term xml:id="en_2234" xml:lang="en"><emphasis>Static component
+								structure</emphasis></term>
+							<listitem>
+								<para xml:id="de_2235" xml:lang="de">Die
+									<emphasis>statische</emphasis> Komponentenstruktur
+									beschreibt die feste Struktur innerhalb der echten Komponenten.
+									Diese Struktur ist durch das OTDS Format vorgegeben. Diese
+									Struktur ist Teil der statischen
+									Komponenteneigenschaften.</para>
+								<para xml:id="en_2235" xml:lang="en">The <emphasis>static</emphasis>
+									component structure describes the fixed structure within the
+									real components. This structure is given by the OTDS format.
+									This structure is a part of the static component
+									properties.</para>
+							</listitem>
+						</varlistentry>
+						<varlistentry>
+							<term xml:id="de_2236" xml:lang="de"><emphasis>dynamische
+								Komponentenstruktur</emphasis></term>
+							<term xml:id="en_2236" xml:lang="en"><emphasis>dynamic component
+								structure</emphasis></term>
+							<listitem>
+								<para xml:id="de_2237" xml:lang="de">Die
+									<emphasis>dynamische</emphasis> Komponentenstruktur
+									beschreibt die durch die Produktspezifikation und definierte
+									Komponenten konfigurierbare Struktur des Komponentenbaumes.
+									Diese Struktur ist Teil der im Folgekapitel beschriebenen
+									dynamischen Komponenteneigenschaften.</para>
+								<para xml:id="en_2237" xml:lang="en">The
+									<emphasis>dynamic</emphasis> component structure describes
+									the structure of the component tree, which is configured through
+									the product specification and defined components. This structure
+									is part of the dynamic component characteristics, which are
+									described in the following chapter.</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
 					<para xml:id="de_2224" xml:lang="de">Komponenten werden weiter unterteilt
 						in:</para>
 					<para xml:id="en_2224" xml:lang="en">Components are further subdivided
@@ -29126,54 +29208,6 @@ usw.]]></programlisting>
 							</listitem>
 						</varlistentry>
 					</variablelist>
-
-					<para xml:id="de_2233" xml:lang="de">Desweiteren kann die Baumstruktur der
-						Komponenten in zwei Bereiche unterteilt werden:</para>
-					<para xml:id="en_2233" xml:lang="en">What is more, the tree structure of the
-						components can be divided into two areas:</para>
-
-					<variablelist>
-						<varlistentry>
-							<term xml:id="de_2234" xml:lang="de"><emphasis>statische
-									Komponentenstruktur</emphasis></term>
-							<term xml:id="en_2234" xml:lang="en"><emphasis>Static component
-									structure</emphasis></term>
-							<listitem>
-								<para xml:id="de_2235" xml:lang="de">Die
-										<emphasis>statische</emphasis> Komponentenstruktur
-									beschreibt die feste Struktur innerhalb der echten Komponenten.
-									Diese Struktur ist durch das OTDS Format vorgegeben. Diese
-									Struktur ist Teil der statischen
-									Komponenteneigenschaften.</para>
-								<para xml:id="en_2235" xml:lang="en">The <emphasis>static</emphasis>
-									component structure describes the fixed structure within the
-									real components. This structure is given by the OTDS format.
-									This structure is a part of the static component
-									properties.</para>
-							</listitem>
-						</varlistentry>
-						<varlistentry>
-							<term xml:id="de_2236" xml:lang="de"><emphasis>dynamische
-									Komponentenstruktur</emphasis></term>
-							<term xml:id="en_2236" xml:lang="en"><emphasis>dynamic component
-									structure</emphasis></term>
-							<listitem>
-								<para xml:id="de_2237" xml:lang="de">Die
-										<emphasis>dynamische</emphasis> Komponentenstruktur
-									beschreibt die durch die Produktspezifikation und definierte
-									Komponenten konfigurierbare Struktur des Komponentenbaumes.
-									Diese Struktur ist Teil der im Folgekapitel beschriebenen
-									dynamischen Komponenteneigenschaften.</para>
-								<para xml:id="en_2237" xml:lang="en">The
-										<emphasis>dynamic</emphasis> component structure describes
-									the structure of the component tree, which is configured through
-									the product specification and defined components. This structure
-									is part of the dynamic component characteristics, which are
-									described in the following chapter.</para>
-							</listitem>
-						</varlistentry>
-					</variablelist>
-
 					<para xml:id="de_2238" xml:lang="de">Ein weiterer Satz von
 						Komponenteneigenschaften beschäftigt sich mit der Allokation, also der
 						Zuteilung von Terminen und Personen zu Komponenten (Siehe <xref
@@ -29640,9 +29674,8 @@ usw.]]></programlisting>
 							<term xml:id="en_2253" xml:lang="en"><code>CombiComponent</code>
 							</term>
 							<listitem>
-								<para xml:id="de_2254" xml:lang="de">Eine
-										<code>CombiComponent</code> ist nicht Teil der statischen
-									Komponentenhierarchie. Die Hierarchie einer
+								<para xml:id="de_2254" xml:lang="de">Eine  ist nicht<code>CombiComponent</code> Teil der
+									statischen Komponentenhierarchie. Die Hierarchie einer
 										<code>CombiComponent</code> hängt von der Struktur der
 									Produktspezifikation ab.</para>
 								<para xml:id="en_2254" xml:lang="en">A <code>CombiComponent</code>
@@ -29702,13 +29735,12 @@ usw.]]></programlisting>
 							Komponenteneigenschaften</phrase><phrase xml:id="en_2258" xml:lang="en"
 							>Dynamic components properties</phrase></title>
 
-					<para xml:id="de_2259" xml:lang="de">Zusätzlich zu den statischen Eigenschaften
-						werden im Verarbeitungsmodell im Rahmen der Verarbeitung einer
-						Produktspezifikation den Komponenten dynamische Eigenschaften
-						zugeordnet.</para>
-					<para xml:id="en_2259" xml:lang="en">In addition to static properties the
-						processing model also contains components associated with dynamic properties
-						in the context of processing a product specification.</para>
+					<para xml:id="de_2259" xml:lang="de">Zusätzlich zu den statischen Eigenschaften werden im
+						Verarbeitungsmodell im Rahmen der Expansion einer Produktdefinition den
+						Komponenten dynamische Eigenschaften zugeordnet.</para>
+					<para xml:id="en_2259" xml:lang="en">In addition to static properties the processing model also
+						contains components associated with dynamic properties in the context of
+						expanding a product definition.</para>
 
 					<variablelist>
 						<varlistentry>
@@ -29817,16 +29849,16 @@ usw.]]></programlisting>
 							<term xml:id="en_2270" xml:lang="en"><emphasis>Filter
 									Conditions</emphasis> (only <code>CombiComponent</code> )</term>
 							<listitem>
-								<para xml:id="de_2271" xml:lang="de">Bei der Auflösung aller
-										<code>DefinedComponent</code> Angaben werden diese durch
-										<code>CombiComponent</code> ersetzt. Eine
-										<code>DefinedComponent</code> kann eine eigene Bedingung
-									enthalten. Diese Bedingung wird hier abgelegt.</para>
-								<para xml:id="en_2271" xml:lang="en">If all
-										<code>DefinedComponent</code> information is resolved, these
-									are replaced by <code>CombiComponent</code> . A
-										<code>DefinedComponent</code> can contain a condition. This
-									condition is stored here.</para>
+								<para xml:id="de_2271" xml:lang="de">Bei der Auflösung aller <code>DefinedComponent</code>
+									Angaben werden diese durch <code>CombiComponent</code> ersetzt.
+									Eine <code>DefinedComponent</code> kann eine eigene Bedingungen
+									und Buchungsparameter enthalten. Diese Bedingungen und
+									Buchungsparameter werden hier abgelegt.</para>
+								<para xml:id="en_2271" xml:lang="en">If all <code>DefinedComponent</code> information is
+									resolved, these are replaced by <code>CombiComponent</code> . A
+										<code>DefinedComponent</code> can contain a conditions and
+									booking parameters. This conditions and booking parameters are
+									stored here.</para>
 							</listitem>
 						</varlistentry>
 
@@ -29905,16 +29937,16 @@ usw.]]></programlisting>
 						conditions or during the processing of the <code>Booking</code>
 						elements).</para>
 
-					<para xml:id="de_2282" xml:lang="de">Jede Komponenten- oder
-						Unterkomponenteninstanz besitzt ihre eigenen Werte. Das Verarbeitungsmodell
-						legt genau fest, an welcher Stelle welche Werte welchen Komponenteninstanzen
-						zuzuordnen sind. Diese Zuweisungen werden in den folgenden Kapiteln genau
-						definiert. In OTDS 1.0 besitzen nur echte Komponenten Instanzwerte.</para>
-					<para xml:id="en_2282" xml:lang="en">Every component instance or subcomponent
-						instance possesses its own values. The processing model determines in
-						exactly which location which values are to be assigned to which component
-						instances. These assignments are precisely defined in the following
-						chapters. In OTDS 1.0 only real components have instance values.</para>
+					<para xml:id="de_2282" xml:lang="de">Jede Komponenten- oder Unterkomponenteninstanz besitzt
+						ihre eigenen Werte. Das Verarbeitungsmodell legt genau fest, an welcher
+						Stelle welche Werte welchen Komponenteninstanzen zuzuordnen sind. Diese
+						Zuweisungen werden in den folgenden Kapiteln genau definiert. Nur echte
+						Komponenten besitzen Instanzwerte.</para>
+					<para xml:id="en_2282" xml:lang="en">Every component instance or subcomponent instance
+						possesses its own values. The processing model determines in exactly which
+						location which values are to be assigned to which component instances. These
+						assignments are precisely defined in the following chapters. Only real
+						components have instance values.</para>
 
 					<variablelist>
 						<varlistentry>
@@ -29967,21 +29999,21 @@ usw.]]></programlisting>
 							<term xml:id="en_2290" xml:lang="en"><emphasis><code>Gender</code> (per
 									person)</emphasis></term>
 							<listitem>
-								<para xml:id="de_2291" xml:lang="de">Hier wird das Ergebnis der
-									Personenallokation abgelegt. Auch dieser Wert wird zunächst den
-									personenallozierenden Komponenteninstanzen zugewiesen und per
-									Migration auf deren Unter- und Überkomponenteninstanzen
-									übertragen. Da die Personenallokation in OTDS 1.0 noch sehr
-									eingeschränkt ist, wird im Endeffekt allen Komponenten die
-									vollständige Belegung zugeordnet. Siehe <xref
+								<para xml:id="de_2291" xml:lang="de">Hier wird das Ergebnis der Personenallokation abgelegt.
+									Auch dieser Wert wird zunächst den personenallozierenden
+									Komponenteninstanzen zugewiesen und per Migration auf deren
+									Unter- und Überkomponenteninstanzen übertragen. Bis heute ist
+									die Personenallokation in OTDS noch sehr eingeschränkt. Im
+									Endeffekt wird allen Komponenten die vollständige Belegung
+									zugeordnet. Siehe <xref
 										linkend="OtdsProcessProductAllocationPerson"/>.</para>
-								<para xml:id="en_2291" xml:lang="en">The result of the person
-									allocation is placed here. This value too is first assigned to
-									the person-allocating component instances and is transferred by
-									migration to the subcomponent and supercomponent instances. As
-									the person allocation in OTDS 1.0 is still very limited,
-									eventually all components are allocated to the entire occupancy.
-									See <xref linkend="OtdsProcessProductAllocationPerson"/>.</para>
+								<para xml:id="en_2291" xml:lang="en">The result of the person allocation is placed here.
+									This value too is first assigned to the person-allocating
+									component instances and is transferred by migration to the
+									subcomponent and supercomponent instances. The person allocation
+									in OTDS is still very limited. Eventually all components are
+									allocated to the entire occupancy. See <xref
+										linkend="OtdsProcessProductAllocationPerson"/>.</para>
 							</listitem>
 						</varlistentry>
 						<varlistentry>
@@ -36633,7 +36665,8 @@ usw.]]></programlisting>
 								<code>DefineComponent</code> Definitionen aufgelöst und durch
 							entsprechende <code>CombiComponent</code> Angaben ersetzt. Aus jeder
 							Produktregel wird so eine Menge von expandierten Regelsätzen erzeugt.
-							Dieser Expansionsprozess ist rekursiv.</para>
+							Dieser Expansionsprozess ist rekursiv und ruft für jeden <code>ProductType</code> die Funktion <code>ExpandiereKomponente</code> (
+							<replaceable>K</replaceable>, <replaceable>ProductType</replaceable>) auf. <replaceable>K</replaceable> enthält das komplette Products-Element des aggregierten OTDS Dokumentes.</para>
 						<para xml:id="en_2908" xml:lang="en">In this stage, all
 								<code>DefinedComponent</code> references are removed using the
 							corresponding <code>DefineComponent</code> definitions and are replaced
