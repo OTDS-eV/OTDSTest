@@ -36646,15 +36646,12 @@ usw.]]></programlisting>
 							</listitem>
 						</itemizedlist>
 
-						<para xml:id="de_2906" xml:lang="de">Diese Schritte werden für jedes
-								<code>Product</code> Element durchgeführt. Die Instanzmengen aller
-								<code>Product</code> Elemente mit demselben <code>ProductType</code>
-							werden dann zusammengefasst.</para>
+						<para xml:id="de_2906" xml:lang="de">Diese Schritte werden für jeden 
+							<code>ProductType</code> durchgeführt. Die Instanzmengen je <code>ProductType</code>
+							werden am Ende zusammengefasst.</para>
 						<para xml:id="en_2906" xml:lang="en">The stages are carried out for each
-								<code>Product</code> element. The set of instances of all
-								<code>Product</code> elements with the same <code>ProductType</code>
+							<code>ProductType</code>. The set of instances with the same <code>ProductType</code>
 							are then combined.</para>
-					</section>
 					<section xml:id="OtdsProcessProductExpandRules">
 						<title><phrase xml:id="de_2907" xml:lang="de">Erzeugung der expandierten
 								Produktregeln</phrase><phrase xml:id="en_2907" xml:lang="en"
@@ -36665,14 +36662,17 @@ usw.]]></programlisting>
 								<code>DefineComponent</code> Definitionen aufgelöst und durch
 							entsprechende <code>CombiComponent</code> Angaben ersetzt. Aus jeder
 							Produktregel wird so eine Menge von expandierten Regelsätzen erzeugt.
-							Dieser Expansionsprozess ist rekursiv und ruft für jeden <code>ProductType</code> die Funktion <code>ExpandiereKomponente</code> (
-							<replaceable>K</replaceable>, <replaceable>ProductType</replaceable>) auf. <replaceable>K</replaceable> enthält das komplette Products-Element des aggregierten OTDS Dokumentes.</para>
-						<para xml:id="en_2908" xml:lang="en">In this stage, all
+							Dieser Expansionsprozess nutzt die rekursive Funktion <code>ExpandiereKomponente</code> (
+							<replaceable>K</replaceable>, <replaceable>ProductType</replaceable>). 
+							<replaceable>K</replaceable> repräsentiert dabei eine Komponente inklusive der statischen und dynamsichen Eigenschaften. 
+							Für jeden <code>ProductType</code> wird die Funktion <code>ExpandiereKomponente</code> (OTDS, [ProductType]) aufgerufen. OTDS steht für die OTDS-Komponente.</para>
+						<!--<para xml:id="en_2908" xml:lang="en">In this stage, all
 								<code>DefinedComponent</code> references are removed using the
 							corresponding <code>DefineComponent</code> definitions and are replaced
 							with the corresponding <code>CombiComponent</code> specifications. A
 							number of expanded sets of rules are produced from each product rule.
-							This expansion process is recursive.</para>
+							This expansion process is recursive.</para>-->
+						<para xml:id="de_10012" xml:lang="de">Das Ergebnis ist eine Menge von expandierten Produktregeln, die alle Komponenten enthalten.</para>
 
 						<itemizedlist>
 							<listitem>
@@ -36755,12 +36755,12 @@ usw.]]></programlisting>
 								<code>DefineComponent</code> elements. The filter condition is noted
 							down as an additional property of the rule, so that it is applied
 							correctly for any later evaluations of the filter conditions.</para>
-
+						
 						<task xml:id="OtdsProcessProductExpandRulesFormal">
 							<title><phrase xml:id="de_2914" xml:lang="de"
 										><code>ExpandiereKomponente</code> (
-										<replaceable>K</replaceable> )</phrase><phrase
-									xml:id="en_2914" xml:lang="en"><code>Expand Component</code> (
+								<replaceable>K</replaceable>, <replaceable>ProductType</replaceable> )</phrase><phrase
+									xml:id="en_2914" xml:lang="en"><code>ExpandComponent</code> (
 										<replaceable>K</replaceable> )</phrase></title>
 
 							<tasksummary>
@@ -36781,28 +36781,19 @@ usw.]]></programlisting>
 							<procedure>
 								<step>
 									<para xml:id="de_2917" xml:lang="de">Wenn
-											<replaceable>K</replaceable> eine echte Komponente oder
-										eine <code>ProductComponent</code> ist, wird die Komponente
+										<replaceable>K</replaceable> eine <code>ProductComponent</code>, <code>VirtualComponent</code> oder <code>ExternalComponent</code> ist, wird die Komponente
 										wie sie ist zurückgegeben.</para>
-									<para xml:id="en_2917" xml:lang="en">If
-											<replaceable>K</replaceable> is a real component or a
-											<code>ProductComponent</code>, the component is returned
-										as it is.</para>
 								</step>
-
 								<step>
-									<para xml:id="de_2918" xml:lang="de">Wenn
-											<replaceable>K</replaceable> eine
-											<code>CombiComponent</code> oder das toplevel
-											<code>Product</code> ist, so wird die Expansion rekursiv
-										in den Unterkomponenten von <replaceable>K</replaceable>
-										fortgesetzt:</para>
-									<para xml:id="en_2918" xml:lang="en">If
-											<replaceable>K</replaceable> is a
-											<code>CombiComponent</code>, or the top level is
-											<code>Product</code> , the expansion continues
-										recursively within the subcomponents of
-											<replaceable>K</replaceable> :</para>
+									<para xml:id="de_2918" xml:lang="de">Wenn <replaceable>K</replaceable> eine
+												<code>CombiComponent</code> oder eine echte oder
+											eine Wrapper-Komponente ist, so wird die Expansion
+											rekursiv in den Unterkomponenten von
+												<replaceable>K</replaceable> fortgesetzt:</para>
+									<para xml:id="en_2918" xml:lang="en">If <replaceable>K</replaceable> is a
+												<code>CombiComponent</code>, or a real COmponent,
+											the expansion continues recursively within the
+											subcomponents of <replaceable>K</replaceable> :</para>
 									<procedure>
 										<step>
 											<para xml:id="de_2919" xml:lang="de">Zunächst wird
@@ -39362,6 +39353,7 @@ usw.]]></programlisting>
 							If one of these conditions is <code>False</code> , the offer is
 							rejected.</para>
 
+					</section>
 					</section>
 				</section>
 				<section xml:id="OtdsProcessAvailability">
