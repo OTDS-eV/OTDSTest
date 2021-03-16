@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Otds xmlns="http://otds-group.org/otds" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2.0" xsi:schemaLocation="http://otds-group.org/otds ../xsd/otds.xsd">
 	<Products>
-		<!-- de: Exemplarische Accommodation, auf die sich das Addon bezieht. Ein Addon kann stets nur mit einer anderen Komponente zusammen gebucht werden! -->
-		<!-- en: Exemplary accommodation to which the addon refers. An addon can only be booked together with another component! -->
+		<!-- de: Exemplarisches AccomOnly-Product, auf welches sich das AddonProduct bezieht. Ein Addon kann stets nur mit einem anderen Product zusammen gebucht werden! -->
+		<!-- en: Exemplary accommodation to which the addon refers. An addon can only be booked together with another product component! -->
 		<Product Key="Accom" ProductType="AccommodationOnly">
 			<Components>
 				<Accommodation/>
 			</Components>
+		</Product>
+		<!-- de: Exemplarisches Pauschalprodukt, auf welches sich das AddonProduct bezieht. Ein Addon kann stets nur mit einem anderen Product zusammen gebucht werden! -->
+		<!-- en: Exemplary accommodation to which the addon refers. An addon can only be booked together with another product component! -->
+		<Product Key="Accom" ProductType="FlightAccommodation">
+			<Components>
+				<Accommodation/>
+				<ReturnFlight/>
+			</Components>
+		</Product>
+		<Product ProductType="Addon" Key="AccomCancelationInsurances">
+			<!-- de: Das Addon benötigt eine eigene Buchungszeile mit Anforderung V. -->
+				<!-- en: Find here a definition for additional bookable annulation insurances. -->
+			<Booking>
+				<BookingGroup Area="ServiceArea">
+					<BookingParameter Field="RequestCode">
+						<Value>V</Value>
+					</BookingParameter>
+					<BookingParameter Field="DateStart">
+						<Date DayType="CheckIn" Source="#AddonAccomOnlyProduct"/>
+					</BookingParameter>
+					<BookingParameter Field="DateEnd">
+						<Date DayType="CheckOut" Source="#AddonAccomOnlyProduct"/>
+					</BookingParameter>
+				</BookingGroup>
+			</Booking>
+			<Components>
+				<!-- de: Hier beispielhaft eine Definition für zubuchbare Stornierungsversicherungen. -->
+				<!-- en: Find here a definition for additional bookable annulation insurances. -->
+				<!-- de: Ein Addon benötigt immer den Bezug auf Product, welches Hotels, Flüge oder beides beinhaltet, mit dem es zusammen gebucht werden muss. -->
+				<!-- en: An addon always requires the reference to a product that contains an accommodation or a flight or both, with which it must be booked together. -->
+				<!-- de: Dieses Addon bezieht sich auf das AccomOnly-Product. -->
+				<!-- en: This Addon is related to the AccomOnly Product. -->
+				<ProductComponent ProductType="AccommodationOnly" Name="AddonAccomOnlyProduct"/>
+				<Addon DayAllocationIndex="0"/>
+			</Components>
+			<!-- de: Einschränkungen, mit welchen Komponenten das Addon gebucht werden kann. -->
+			<!-- en: Restrictions on which components the addon can be booked with. -->
+			<Filter Key="1">
+				<And>
+					<!-- de: Es kann sein, dass die Versicherung nur für bestimmte Regionen zugebucht werden kann. Die einfachte Form wäre ein Bezug auf den gemeinsamen CatchmentAirport -->
+					<!-- en: It can be that the insurances are only offered for specific regions. The most simple was to reach this is to use a matchequal of CatchmentAirports. -->
+					<MatchEqual>
+						<Element Source="Accommodation">CatchmentAirport</Element>
+						<Element Source="Addon">CatchmentAirport</Element>
+					</MatchEqual>
+					<!-- de: Die einfachste Steuerung könnte sein, dass das Addon nur für bestimmte Accommodations zur Verfügung steht, welche ein spezifisches Tag mit einem spezifischen Value enthalten.-->
+					<!-- en: The simplest rule could be that the addon can only be booked with specific accommodations, that contain a specific Tag.-->
+					<Tags Source="Accommodation" Class="AllowedAddonType">AnnulationInsurances</Tags>
+				</And>
+			</Filter>
+			<DayAllocation>
+				<!-- de: Eine solche Versicherung bezieht sich immer auf alle Tage. -->
+				<!-- de: This kind of insurance always relates to all days. -->
+				<DayAllocationStart Source="Accommodation" DayReference="CheckIn"/>
+				<DayAllocationEnd Source="Accommodation" DayReference="CheckOut"/>
+			</DayAllocation>
+		</Product>
+		<Product ProductType="Addon" Key="PackageCancelationInsurances">
+			<Components>
+				<!-- de: Hier beispielhaft eine Definition für zubuchbare Stornierungsversicherungen für ein Pauschalprodukt. -->
+				<!-- en: At this point, a definition of annulation insurances for package products. -->
+				<ProductComponent ProductType="FlightAccommodation"/>
+				<Addon DayAllocationIndex="0" DayAllocationLevel="1"/>
+			</Components>
+			<!-- de: Einschränkungen, mit welchen Komponenten das Addon gebucht werden kann. -->
+			<!-- en: Restrictions on which components the addon can be booked with. -->
+			<Filter Key="1">
+				<And>
+					<!-- de: Wie bei AccomOnly kann es sein, dass die Versicherung nur für bestimmte Regionen zugebucht werden kann. Die einfachte Form wäre ein Bezug auf den gemeinsamen CatchmentAirport -->
+					<!-- en: Analog to AccomOnly, it can be that the insurances are only offered for specific regions. The most simple was to reach this is to use a matchequal of CatchmentAirports. -->
+					<MatchEqual>
+						<Element Source="Accommodation">CatchmentAirport</Element>
+						<Element Source="Addon">CatchmentAirport</Element>
+					</MatchEqual>
+					<!-- de: Auch hier wäre, wie bei AccomOnly die Steuerung über ein spezifisches Tag möglich.-->
+					<!-- en: Like in Accomonly also here the stearing with the help of a specific Tag might be sensible.-->
+					<Tags Source="Accommodation" Class="AllowedAddonType">AnnulationInsurances</Tags>
+					<!-- de: Bei Pauschalangeboten werden für solche Versicherungen gerne Linienflüge ausgeklammert. Das erreicht man über ein entsprechendes Tag an den Flügen. -->
+					<!-- en: With package offers very ofthen these kind of addon insurances are not offered for scheduled flights.. You can realize this, by using a spefic Tag of the flights. -->					
+					<Tags Source="ReturnFlight" EvaluationMode="Any" Class="IsScheduledFlight">NO</Tags>
+				</And>
+			</Filter>
+			<DayAllocation>
+				<!-- de: Eine solche Versicherung bezieht sich immer auf alle Tage. -->
+				<!-- de: This kind of insurance always relates to all days. -->
+				<DayAllocationStart Source="Product" DayReference="CheckIn" DayAllocationLevel="1"/>
+				<DayAllocationEnd Source="Product" DayReference="CheckOut" DayAllocationLevel="1"/>
+			</DayAllocation>
 		</Product>
 		<Product ProductType="Addon" Key="regionw">
 			<Components>
@@ -129,9 +217,10 @@
 	<Accommodations>
 		<!--de: Exemplarische Accommodation. Auf eine ausführliche Definition wird hier verzichtet, da diese nur für die Kombination mit dem Addon benötigt wird. -->
 		<!--de: Exemplary Accommodation. No detailed definition is given here, as this is only required for the combination with the addon. -->
-		<Accommodation Key="050255">
+		<Accommodation Key="1">
 			<Tags>
 				<Tag Class="Accom">050255</Tag>
+				<Tag Class="AllowedAddonType">AnnulationInsurances</Tag>
 			</Tags>
 			<!-- de: Tag zum Abgleich, mit welcher Accommodation das Addon verknüpft werden kann. -->
 			<!-- de: Tag to compare with which the accommodation the addon can be linked. -->
@@ -164,10 +253,11 @@
 					</SellingUnit>
 				</Unit>
 			</SellingAccom>
+			<CatchmentAirports>PMI</CatchmentAirports>
 		</Accommodation>
 		<!--de: Exemplarische Accommodation. Auf eine ausführliche Definition wird hier verzichtet, da diese nur für die Kombination mit dem Addon benötigt wird. -->
 		<!--de: Exemplary Accommodation. No detailed definition is given here, as this is only required for the combination with the addon. -->
-		<Accommodation Key="051002">
+		<Accommodation Key="2">
 			<Tags>
 				<Tag Class="Accom">051002</Tag>
 			</Tags>
@@ -202,10 +292,11 @@
 					</SellingUnit>
 				</Unit>
 			</SellingAccom>
+			<CatchmentAirports>MAD</CatchmentAirports>
 		</Accommodation>
 		<!-- de: Exemplarische Accommodation. Auf eine ausführliche Definition wird hier verzichtet, da diese nur für die Kombination mit dem Addon benötigt wird. -->
 		<!--de: Exemplary Accommodation. No detailed definition is given here, as this is only required for the combination with the addon. -->
-		<Accommodation Key="1">
+		<Accommodation Key="3">
 			<Tags>
 				<Tag Class="Ort">Leipzig</Tag>
 			</Tags>
@@ -240,10 +331,11 @@
 					</SellingUnit>
 				</Unit>
 			</SellingAccom>
+			<CatchmentAirports>LEJ</CatchmentAirports>
 		</Accommodation>
 		<!-- de: Exemplarische Accommodation. Auf eine ausführliche Definition wird hier verzichtet, da diese nur für die Kombination mit dem Addon benötigt wird. -->
 		<!--de: Exemplary Accommodation. No detailed definition is given here, as this is only required for the combination with the addon. -->
-		<Accommodation Key="1">
+		<Accommodation Key="4">
 			<!-- de: Tag zum Abgleich, mit welcher Accommodation das Addon verknüpft werden kann. -->
 			<!--en: Tag to compare with which the accommodation the addon can be linked. -->
 			<SellingAccom Key="1">
@@ -279,6 +371,178 @@
 		</Accommodation>
 	</Accommodations>
 	<Addons>
+		<!-- de: Stornierungsversicherung -->
+		<!-- en: Annulations insurance-->
+		<Addon Key="CancelationInsurance">
+			<!-- de: Stornierungsversicherung -->
+			<!-- en: Annulations insurance-->
+			<Booking>
+				<BookingGroup Area="ServiceArea" Source="Addon">
+					<BookingParameter Field="ServiceCode">
+						<Value>STORNO</Value>
+					</BookingParameter>
+				</BookingGroup>	
+			</Booking>
+			<CheckOutDateOffset>0</CheckOutDateOffset>
+			<Properties Key="1">
+				<PropertyGroup>
+					<AddonName>Stornierungsversicherung</AddonName>
+					<AddonServiceType>
+						<Insurance>CancelationInsurance</Insurance>
+					</AddonServiceType>
+				</PropertyGroup>
+			</Properties>
+			<!-- de: verschiedene Versicherungsleistungen in verschiedenen Services. -->
+			<!-- en: Different insurance services in different service-elements. -->
+			<Service Key="T30">
+				<Booking>
+					<BookingGroup Area="ServiceArea" Source="Addon">
+						<!-- de: BookingBlock des Service -->
+						<!-- en: Booking block of the service -->
+						<BookingParameter Field="ServiceFeatureCode">
+							<Value>T30</Value>
+						</BookingParameter>
+					</BookingGroup>
+				</Booking>
+				<Properties Key="1">
+					<PropertyGroup>
+						<AddonServiceFeatureName>T30: Stornierung bis 30 Tage vor Abreise</AddonServiceFeatureName>
+						<AddonServiceFeatureInfo>
+							<StructuredText>
+								<section>
+									<title>Beschreibung</title>
+									<para>Die Stornierungsversicherung T30 sichert ab, dass Sie kostenlos bis 30 Tage vor dem Abflug die Reise stornieren können.</para>
+									<para>Detailierte Versicherungsbedingungen finden Sie unter http:\\www.rund.um.gluecklich.versichwerung.de</para>
+								</section>
+							</StructuredText>
+						</AddonServiceFeatureInfo>
+					</PropertyGroup>
+				</Properties>
+				<Occupancy Key="1">
+					<Person>
+						<MinCount>1</MinCount>
+					</Person>
+				</Occupancy>
+				<!-- de: Preise in Abhängigkeit des Reisepreises -->
+				<!-- en: Individual prices depending on TravelOfferPrice  -->
+				<PriceItems Key="1">
+					<PriceItem Class="VS">
+						<Absolute>
+							<Value>50</Value>
+							<DayBase>x</DayBase>
+							<PersonBase>x</PersonBase>
+						</Absolute>
+						<Condition>
+							<ProductPrice>
+								<Max>800</Max>
+							</ProductPrice>
+						</Condition>
+					</PriceItem>
+					<PriceItem Class="VS">
+						<Absolute>
+							<Value>100</Value>
+							<DayBase>x</DayBase>
+							<PersonBase>x</PersonBase>
+						</Absolute>
+						<Condition>
+							<ProductPrice>
+								<Min>801</Min>
+								<Max>1200</Max>
+							</ProductPrice>
+						</Condition>
+					</PriceItem>
+					<PriceItem Class="VS">
+						<Absolute>
+							<Value>200</Value>
+							<DayBase>x</DayBase>
+							<PersonBase>x</PersonBase>
+						</Absolute>
+						<Condition>
+							<ProductPrice>
+								<Min>1201</Min>
+								<Max>1800</Max>
+							</ProductPrice>
+						</Condition>
+					</PriceItem>
+				</PriceItems>
+			</Service>
+			<Service Key="U60">
+				<Booking>
+					<BookingGroup Area="ServiceArea" Source="Addon">
+						<!-- de: BookingBlock des Service -->
+						<!-- en: Booking block of the service -->
+						<BookingParameter Field="ServiceFeatureCode">
+							<Value>U30</Value>
+						</BookingParameter>
+					</BookingGroup>
+				</Booking>
+				<Properties Key="1">
+					<PropertyGroup>
+						<AddonServiceFeatureName>Umbuchung bis 60 Tage vor Abreise</AddonServiceFeatureName>
+						<AddonServiceFeatureInfo>
+							<StructuredText>
+								<section>
+									<title>Beschreibung</title>
+									<para>Die Stornierungsversicherung U30 sichert ab, dass Sie kostenlos bis 30 Tage vor dem Abflug die Reise umbuchen können.</para>
+									<para>Detailierte Versicherungsbedingungen finden Sie unter http:\\www.rund.um.gluecklich.versichwerung.de</para>
+								</section>
+							</StructuredText>
+						</AddonServiceFeatureInfo>
+					</PropertyGroup>
+				</Properties>
+				<Occupancy Key="1">
+					<Person>
+						<MinCount>1</MinCount>
+					</Person>
+				</Occupancy>
+				<!-- de: Preise in Abhängigkeit des Reisepreises -->
+				<!-- en: Individual prices depending on TravelOfferPrice  -->
+				<PriceItems Key="1">
+					<PriceItem Class="VS">
+						<Absolute>
+							<Value>50</Value>
+							<DayBase>x</DayBase>
+							<PersonBase>x</PersonBase>
+						</Absolute>
+						<Condition>
+							<ProductPrice>
+								<Max>800</Max>
+							</ProductPrice>
+						</Condition>
+					</PriceItem>
+					<PriceItem Class="VS">
+						<Absolute>
+							<Value>100</Value>
+							<DayBase>x</DayBase>
+							<PersonBase>x</PersonBase>
+						</Absolute>
+						<Condition>
+							<ProductPrice>
+								<Min>801</Min>
+								<Max>1200</Max>
+							</ProductPrice>
+						</Condition>
+					</PriceItem>
+					<PriceItem Class="VS">
+						<Absolute>
+							<Value>200</Value>
+							<DayBase>x</DayBase>
+							<PersonBase>x</PersonBase>
+						</Absolute>
+						<Condition>
+							<ProductPrice>
+								<Min>1201</Min>
+								<Max>1800</Max>
+							</ProductPrice>
+						</Condition>
+					</PriceItem>
+				</PriceItems>
+			</Service>
+			<!-- de: LEJ ist kein CatchmentAirport, so dass die Versicherung laut Product/Filter für die Accommodation mit Key="3" nicht zugebucht werden kann. -->
+			<!-- en: LEJ isn't a validf CatchmentAirport, so that this Addon can't be booked additionally to the Accommodation with K="3". -->
+			<CatchmentAirports>PMI MAD ACE</CatchmentAirports>
+		</Addon>
+		
 		<!-- de: Tagesausflug. Preis p.P. einmalig -->
 		<!-- de: Verfügbar Januar bis Oktober 2012 (einschließlich) -->
 		<!-- de: Einschränkung auf bestimmte Accommodations -->
